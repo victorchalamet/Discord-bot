@@ -23,12 +23,11 @@ General commands:
         for channel in guild.text_channels:
             if channel.id == 1078432477414170675:
                 await channel.send(self.help_message)
-    
-    @commands.Cog.listener()
-    async def on_message(self, message):
-        if message.content.find("!", 0,1) != -1 and message.channel.name != "bot-commands" and not message.author.bot:
-            await message.channel.send("You are not in the right channel to enter commands. Go to the bot-commands channel.")
+
+    def is_channel(ctx):
+        return ctx.channel.name == 'bot-commands'
     
     @commands.command(name="help", help="Display all the available commands.")
+    @commands.check(is_channel)
     async def help(self, ctx):
         await ctx.send(self.help_message)

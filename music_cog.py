@@ -55,8 +55,12 @@ class music_cog(commands.Cog):
                 self.vc.append(await ctx.author.voice.channel.connect())
             except discord.errors.ClientException:
                 pass
+    
+    def is_channel(ctx):
+        return ctx.channel.name == 'bot-commands'
 
     @commands.command(name="play", help="Play the Youtube audio. Connect to the channel if already not.")
+    @commands.check(is_channel)
     async def play(self, ctx, url):
         self.is_stop = True
         song = self.search_yt(url)
@@ -79,6 +83,7 @@ class music_cog(commands.Cog):
 
 
     @commands.command(name="pause", help="Pause current the audio")
+    @commands.check(is_channel)
     async def pause(self, ctx):
         if self.vc[0] != None:
             if not self.vc[0].is_paused():
@@ -89,6 +94,7 @@ class music_cog(commands.Cog):
             await ctx.send("The bot is not connected to a voice channel.")
     
     @commands.command(name="resume", help="Resume the current audio")
+    @commands.check(is_channel)
     async def resume(self, ctx):
         if self.vc[0] != None:
             if self.vc[0].is_paused():
@@ -102,6 +108,7 @@ class music_cog(commands.Cog):
             await ctx.send("The bot is not connected to a voice channel.")
     
     @commands.command(name="skip", help="Pass the current audio")
+    @commands.check(is_channel)
     async def next(self, ctx):
         if self.vc[0] != None:
             if self.queue.qsize() == 0:
@@ -113,6 +120,7 @@ class music_cog(commands.Cog):
             await ctx.send("The bot is not connected to a voice channel.")
     
     @commands.command(name="stop", help="Stop the current audio")
+    @commands.check(is_channel)
     async def stop(self, ctx):
         if self.vc[0] != None:
             if self.vc[0].is_playing():
@@ -124,6 +132,7 @@ class music_cog(commands.Cog):
             await ctx.send("The bot is not connected to a voice channel.")   
 
     @commands.command(name="leave", help="Tells the bot to leave the voice channel")
+    @commands.check(is_channel)
     async def leave(self, ctx):
         if self.vc[0] != None:
             await self.vc[0].disconnect()
@@ -132,6 +141,7 @@ class music_cog(commands.Cog):
             await ctx.send("The bot is not connected to a voice channel.")
     
     @commands.command(name="clear", help="Clear the queue")
+    @commands.check(is_channel)
     async def clear(self, ctx):
         if not self.queue.empty():
             len_queue = self.queue.qsize()
@@ -148,6 +158,7 @@ class music_cog(commands.Cog):
             await ctx.send("The queue is already empty")
     
     @commands.command(name="queue", help="Display the number of element in the queue.")
+    @commands.check(is_channel)
     async def get_queue(self, ctx):
         len_queue = self.queue.qsize()
         if len_queue > 1:
