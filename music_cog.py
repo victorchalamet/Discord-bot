@@ -51,27 +51,33 @@ class music_cog(commands.Cog):
         if not ctx.message.author.voice:
             await ctx.send(f"{ctx.message.author.name} is not connected to a voice channel !")
         else:
-            self.vc.append(await ctx.author.voice.channel.connect())
+            try:
+                self.vc.append(await ctx.author.voice.channel.connect())
+            except discord.errors.ClientException:
+                pass
 
     @commands.command(name="play", help="Play the Youtube audio. Connect to the channel if already not.")
     async def play(self, ctx, url):
         self.is_stop = True
         song = self.search_yt(url)
+        await self.join(ctx)
         try:
-            await self.join(ctx)
-        except:
-            pass
-        if self.vc[0] != None:
-            await self.queue.put(song)
-            if self.vc[0].is_playing():
+            if self.vc[0] != None:
+                await self.queue.put(song)
                 len_queue = self.queue.qsize()
-                if len_queue == 1:
+                if len_queue == 0:
+                    pass
+                elif len_queue == 1:
                     await ctx.send("Your song is the next one.")
                 elif len_queue == 2:
                     await ctx.send(f"Adding this song to the queue. There is 1 song ahead.")
                 else:
                     await ctx.send(f"Adding this song to the queue. There are {len_queue-1} songs ahead.")
-            await self.play_song(ctx)
+                if not self.vc[0].is_playing():
+                    await self.play_song(ctx)
+        except IndexError:
+            pass
+
 
     @commands.command(name="pause", help="Pause current the audio")
     async def pause(self, ctx):

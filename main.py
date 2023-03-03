@@ -17,5 +17,5 @@ asyncio.run(bot.add_cog(music_cog(bot)))
 
 load_dotenv()
 
-bot.run(os.getenv('bot-token'))
-client.run(os.getenv('bot-token'))
+bot.run(os.getenv('bot_token'))
+client.run(os.getenv('bot_token'))

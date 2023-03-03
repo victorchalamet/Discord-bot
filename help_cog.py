@@ -1,4 +1,3 @@
-import discord
 from discord.ext import commands
 
 class help_cog(commands.Cog):
