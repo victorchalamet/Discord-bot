@@ -65,14 +65,13 @@ class music_cog(commands.Cog):
             if self.vc[0] != None:
                 await self.queue.put(song)
                 len_queue = self.queue.qsize()
-                if len_queue == 0:
-                    pass
-                elif len_queue == 1:
+                if len_queue == 1:
                     await ctx.send("Your song is the next one.")
                 elif len_queue == 2:
                     await ctx.send(f"Adding this song to the queue. There is 1 song ahead.")
                 else:
                     await ctx.send(f"Adding this song to the queue. There are {len_queue-1} songs ahead.")
+
                 if not self.vc[0].is_playing():
                     await self.play_song(ctx)
         except IndexError:
