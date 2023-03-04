@@ -21,7 +21,7 @@ General commands:
     async def on_ready(self):
         guild = self.bot.guilds[0]
         for channel in guild.text_channels:
-            if channel.id == 1078432477414170675:
+            if channel.name == 'bot-commands':
                 await channel.send(self.help_message)
 
     def is_channel(ctx):
