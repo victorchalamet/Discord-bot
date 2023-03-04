@@ -7,8 +7,9 @@ This is an example of a discord music bot that support multiple commands:
 !resume - Resume the current audio.
 !skip - Skip the current audio.
 !stop - Stop the current audio.
-!leave - Leave the voice channel.
-!queue - Display the number of elements in the queue.
+!leave - Leave the voice channel and clear the queue.
+!queue - Display the elements in the queue.
+!clear - Clear the queue.
 ```
 ## How to run your own bot with this code ?
 You'll need to create a .env file with this command in the terminal
