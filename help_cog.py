@@ -20,15 +20,23 @@ General commands:
 
     @commands.Cog.listener()
     async def on_ready(self):
-        guild = self.bot.guilds[0]
-        for channel in guild.text_channels:
-            if channel.name == 'bot-commands':
-                await channel.send(self.help_message)
+        guilds = self.bot.guilds
+        for guild in guilds:
+            for channel in guild.text_channels:
+                if channel.name == 'bot-commands':
+                    await channel.send(self.help_message)
 
+    @commands.Cog.listener()
+    async def on_command_error(self, ctx, error):
+        if isinstance(error, commands.errors.CheckFailure):
+            await ctx.send("Your not in the right channel. Go to the `bot-commands` channel.")
+        else:
+            raise error
+        
     def is_channel(ctx):
         return ctx.channel.name == 'bot-commands'
     
     @commands.command(name="help", help="Display all the available commands.")
     @commands.check(is_channel)
-    async def help(self, ctx):
+    async def help_bot(self, ctx):
         await ctx.send(self.help_message)

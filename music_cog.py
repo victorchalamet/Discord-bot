@@ -59,6 +59,9 @@ class music_cog(commands.Cog):
     def is_channel(ctx):
         return ctx.channel.name == 'bot-commands'
 
+    def is_connected(ctx):
+        return ctx.message.author.voice == True
+    
     @commands.command(name="play", help="Play the Youtube audio. Connect to the channel if already not.")
     @commands.check(is_channel)
     async def play(self, ctx, url):
