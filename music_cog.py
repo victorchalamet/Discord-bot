@@ -157,7 +157,10 @@ class music_cog(commands.Cog):
     @commands.command(name="queue", help="Display the elements in the queue.")
     @commands.check(is_channel)
     async def get_queue(self, ctx):
-        queue_str = "Current Queue:\n"
-        for i, song in enumerate(self.queue._queue):
-            queue_str += f"{i+1}. {song['title']}\n"
-        await ctx.send(queue_str)
+        if self.queue.empty():
+            await ctx.send("The queue is empty.")
+        else:
+            queue_str = "Current Queue:\n"
+            for i, song in enumerate(self.queue._queue):
+                queue_str += f"{i+1}. {song['title']}\n"
+            await ctx.send(queue_str)
