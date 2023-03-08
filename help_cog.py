@@ -28,6 +28,7 @@ General commands:
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
+        """ Gère les erreurs lors du check de channel """
         if isinstance(error, commands.errors.CheckFailure):
             await ctx.send("Your not in the right channel. Go to the `bot-commands` channel.")
         else:

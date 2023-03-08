@@ -34,7 +34,7 @@ class music_cog(commands.Cog):
         if self.queue.qsize() != 0:
             if not self.is_stop:
                 fileName = await self.queue.get()
-                self.vc[0].play(discord.FFmpegPCMAudio(fileName['fileName'], **self.ffmpeg_options), after=lambda e: asyncio.run(self.play_next(ctx)))
+                self.vc[0].play(discord.FFmpegPCMAudio(fileName['fileName'], **self.ffmpeg_options), after=lambda: asyncio.run(self.play_next(ctx)))
         else:
             await ctx.send("There is no music left in the queue.")
     
@@ -42,7 +42,7 @@ class music_cog(commands.Cog):
         if self.queue.qsize() != 0:
             if self.vc[0] != None:
                 fileName = await self.queue.get()
-                self.vc[0].play(discord.FFmpegPCMAudio(fileName['fileName'], **self.ffmpeg_options), after=lambda e: asyncio.run(self.play_next(ctx)))
+                self.vc[0].play(discord.FFmpegPCMAudio(fileName['fileName'], **self.ffmpeg_options), after=lambda: asyncio.run(self.play_next(ctx)))
                 await ctx.send(f"Playing: {fileName['title']}")
             else:
                 await ctx.send("The bot is not connected to a voice channel.")

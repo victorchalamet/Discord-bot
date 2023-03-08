@@ -10,7 +10,7 @@ intents = discord.Intents(messages=True, message_content=True, members=True, gui
 client = discord.Client(intents=intents)
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-bot.remove_command("help")
+bot.remove_command("help") # Remove the original help command because I create one
 
 asyncio.run(bot.add_cog(help_cog(bot)))
 asyncio.run(bot.add_cog(music_cog(bot)))
